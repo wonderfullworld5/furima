@@ -1,4 +1,9 @@
-require_relative "boot"
+Rails.application.routes.draw do
+  devise_for :users
+  # Other routes definitions
+end
+
+# require_relative "boot"  # 不要な行を削除しました
 
 require "rails/all"
 require 'devise'
@@ -21,4 +26,5 @@ module Furima40110
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
 
