@@ -75,4 +75,5 @@ group :development do
   gem 'rubocop', require: false
 end
 gem 'pg'
+gem 'devise'
 

@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require 'devise'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -20,3 +21,4 @@ module Furima40110
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
