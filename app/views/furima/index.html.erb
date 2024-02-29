@@ -1,12 +1,10 @@
 <div class="contents row">
-  <% if @furimas.present? %>
-    <% @furimas.each do |furima| %>
-      <div class="content_post" style="background-image: url(<%= furima.image %>);">
-        <p><%= furima.text %></p>
-        <span class="name">
-          <%= furima.name %>
-        </span>
-      </div>
-    <% end %>
+  <% @furima.each do |furima| %>
+    <div class="content_post" style="background-image: url(<%= furima.image %>);">
+      <p><%= furima.text %></p>
+      <span class="name">
+        <%= furima.name %>
+      </span>
+    </div>
   <% end %>
 </div>
