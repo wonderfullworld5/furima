@@ -1,24 +1,65 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| name               | string | null: false |
+| email              | string | null: false |
+| encrypted_password | string | null: false |
+| address            | text   | null: false |
+| phone              | text   | null: false |
 
-* Ruby version
+### Association
 
-* System dependencies
 
-* Configuration
+## items テーブル
 
-* Database creation
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| image              | string | null: false |
+| description        | string | null: false |
+| detail             | string | null: false |
+| category           | string | null: false |
+| postage            | string | null: false |
+| postage            | string | null: false |
+| area               | string | null: false |
+| days               | string | null: false |
+| price              | text   | null: false |
 
-* Database initialization
+### Association
 
-* How to run the test suite
+- has_one : records
+- has belong : to : items
 
-* Services (job queues, cache servers, search engines, etc.)
+## records テーブル
 
-* Deployment instructions
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| postcode           | string | null: false |
+| area               | string | null: false |
+| city               | text   | null: false |
+| street             | text   | null: false |
+| building           | text   | null: option|
+| phone              | text   | null: false |
 
-* ...
+
+### Association
+
+- has_one : ships
+
+## ships テーブル
+
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| postcode           | string | null: false |
+| area               | string | null: false |
+| city               | text   | null: false |
+| street             | text   | null: false |
+| building           | text   | null: option|
+| phone              | text   | null: false |
+
+
+### Association
+
+- belongs_to :records
