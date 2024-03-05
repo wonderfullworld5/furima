@@ -63,4 +63,3 @@
 ### Association
 
 - belongs_to :records
-
