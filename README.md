@@ -68,3 +68,4 @@
 
 - belongs_to :record
 
+
