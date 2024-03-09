@@ -1,24 +1,70 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| nickname           | string | null: false |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false |
+| last_name          | string | null: false |
+| first_name         | string | null: false |
+| kana_last_name     | string | null: false |
+| kana_first_name    | string | null: false |
+| birth              | date   | null: false |
 
-* Ruby version
+### Association
+- has_many :items
+- has_many :records
 
-* System dependencies
+## items テーブル
 
-* Configuration
+| Column             | Type      | Options     |
+| ------------------ | ------    | ----------- |
+| description        | text      | null: false |
+| detail             | text      | null: false |
+| category_id        | integer   | null: false |
+| postage_id         | integer   | null: false |
+| area_id            | integer   | null: false |
+| date_id            | integer   | null: false |
+| price              | integer   | null: false |
+| user               | references| null: false, foreign_key: true| 
+| condition_id       | integer   | null: false |
 
-* Database creation
+### Association
 
-* Database initialization
+- belongs_to :user
+- has_one :record
 
-* How to run the test suite
+## records テーブル
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column             | Type      | Options     |
+| ------------------ | ------    | ----------- |
+| user               | references| null: false, foreign_key: true| 
+| item               | references| null: false, foreign_key: true|
 
-* Deployment instructions
 
-* ...
+### Association
+
+- belongs_to :user
+- belongs_to :item
+- has_one :ship
+
+## ships テーブル
+
+| Column             | Type      | Options     |
+| ------------------ | ------    | ----------- |
+| record             | references| null: false, foreign_key: true|
+| postcode           | string    | null: false |
+| area_id            | integer   | null: false |
+| city               | string    | null: false |
+| street             | string    | null: false |
+| building           | string    |             |
+| phone              | string    | null: false |
+
+
+### Association
+
+- belongs_to :record
+
+
