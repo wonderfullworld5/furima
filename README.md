@@ -1,24 +1,83 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+|Column    |Type    | Options    |
+|----------|--------|------------|                        
+|nickname	  string	 null: false |
 
-* Ruby version
+email	string	null: false, unique: true
 
-* System dependencies
+encrypted_password	string	null: false
 
-* Configuration
+last_name	string	null: false
 
-* Database creation
+first_name	string	null: false
 
-* Database initialization
+kana_last_name	string	null: false
 
-* How to run the test suite
+kana_first_name	string	null: false
 
-* Services (job queues, cache servers, search engines, etc.)
+birth	date	null: false
 
-* Deployment instructions
+## Association
+- has_many :items
+- has_many :records
 
-* ...
+## items テーブル
+
+
+|Column    |Type    | Options    |
+|----------|--------|------------| 
+description	text	null: false
+detail	text	null: false
+
+category_id	integer	null: false
+
+postage_id	integer	null: false
+
+area_id	integer	null: false
+
+date_id	integer	null: false
+
+price	integer	null: false
+
+user	references	null: false, foreign_key: true
+
+condition_id	integer	null: false
+
+## Association
+belongs_to :user
+has_one :record
+
+
+## records テーブル
+
+
+|Column    |Type    | Options    |
+|----------|--------|------------| 
+user	references	null: false, foreign_key: true
+
+item	references	null: false, foreign_key: true
+
+## Association
+belongs_to :user
+belongs_to :item
+has_one :ship
+
+
+## ships テーブル
+
+|Column    |Type    | Options    |
+|----------|--------|------------| 
+
+record	references	null: false, foreign_key: true
+postcode	string	null: false
+area_id	integer	null: false
+city	string	null: false
+street	string	null: false
+building	string	
+phone	string	null: false
+
+
+## Association
+belongs_to :record
