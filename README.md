@@ -21,7 +21,7 @@
 
 | Column             | Type      | Options     |
 | ------------------ | ------    | ----------- |
-| description        | string    | null: false |
+| description        | text      | null: false |
 | detail             | text      | null: false |
 | category_id        | integer   | null: false |
 | postage_id         | integer   | null: false |
