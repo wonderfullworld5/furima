@@ -13,7 +13,6 @@
 | kana_first_name    | string | null: false |
 | birth              | date   | null: false |
 
-
 ### Association
 - has_many :items
 - has_many :records
@@ -30,7 +29,7 @@
 | date_id            | integer   | null: false |
 | price              | integer   | null: false |
 | user               | references| null: false, foreign_key: true| 
-
+| condition_id       | integer   | null: false |
 
 ### Association
 
