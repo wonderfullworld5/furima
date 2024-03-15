@@ -10,7 +10,12 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    super
+    super do |resource|
+      unless resource.valid?
+        flash.now[:alert] = resource.errors.full_messages.join(', ')
+        render :new
+      end
+    end
   end
 
   # DELETE /resource/sign_out
