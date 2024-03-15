@@ -1,14 +1,13 @@
 <%= render "shared/second-header" %>
 
 <% if user_signed_in? %>
-  <!-- ログインしている場合の表示 -->
-  <div class="form-wrap">
-    <div class="form-group">
-      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout-btn" %>
-    </div>
-  </div>
+  <!-- ユーザーがログインしている場合の表示 -->
+  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
-  <!-- ログインしていない場合の表示 -->
+  <!-- ユーザーがログインしていない場合の表示 -->
+  <%= link_to "新規登録", new_user_registration_path %>
+  <%= link_to "ログイン", user_session_path %>
+<% end %>
   <%= form_with url: user_session_path, class: 'registration-main', local: true do |f| %>
     <div class='form-wrap'>
       <div class='form-header'>
