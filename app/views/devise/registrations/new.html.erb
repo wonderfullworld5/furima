@@ -6,7 +6,7 @@
 <% else %>
   <!-- ユーザーがログインしていない場合の表示 -->
   <%= link_to "新規登録", new_user_registration_path %>
-  <%= link_to "ログイン", new_user_session_path %>
+  <%= link_to "ログイン", user_session_path %>
 <% end %>
 
 <%= form_with model: @user, url: user_registration_path, class: 'registration-main', local: true do |f| %>

@@ -76,4 +76,6 @@ group :development do
 end
 gem 'pg'
 gem 'devise'
+gem 'activerecord-session_store'
+
 
