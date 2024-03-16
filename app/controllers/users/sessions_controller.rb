@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  # before_action :configure_sign_in_params, only: [:create]
-
   # GET /resource/sign_in
   def new
     super
@@ -11,9 +9,9 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     super do |resource|
-      unless resource.valid?
+      if resource.errors.any?
         flash.now[:alert] = resource.errors.full_messages.join(', ')
-        render :new
+        render :new and return
       end
     end
   end
