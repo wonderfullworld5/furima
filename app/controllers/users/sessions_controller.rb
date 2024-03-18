@@ -10,7 +10,7 @@ class Users::SessionsController < Devise::SessionsController
   def create
     super do |resource|
       if resource.errors.any?
-        flash.now[:alert] = resource.errors.full_messages.join(', ')
+        flash[:alert] = resource.errors.full_messages.join(', ')
         render :new and return
       end
     end
@@ -25,6 +25,8 @@ class Users::SessionsController < Devise::SessionsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_in_params
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
   end
 end
+
+
