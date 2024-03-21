@@ -1,5 +1,3 @@
-# spec/models/user_spec.rb
-
 require 'rails_helper'
 require 'faker'
 
