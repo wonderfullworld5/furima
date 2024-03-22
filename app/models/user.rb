@@ -13,7 +13,6 @@ class User < ApplicationRecord
   validates :first_name, presence: true, format: { without: /\A[\x20-\x7E]+\z/, message: 'は全角文字で入力してください' }
   validates :last_name_kana, presence: true, format: { with: /\A[ァ-ヶー－]+\z/ }
   validates :first_name_kana, presence: true, format: { with: /\A[ァ-ヶー－]+\z/ }
-
   validates :birth_date, presence: true
 end
 
