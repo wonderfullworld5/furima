@@ -1,0 +1,38 @@
+<div class="main">
+  <div class="inner">
+    <div class="user__wrapper">
+      <h2 class="page-heading">
+        <%= "#{@user.nickname} さんの情報" %>
+      </h2>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th class="table__col1">ニックネーム</th>
+            <td class="table__col2"><%= @user.nickname %></td>
+          </tr>
+          <tr>
+            <th class="table__col1">メールアドレス</th>
+            <td class="table__col2"><%= @user.email %></td>
+          </tr>
+          <tr>
+            <th class="table__col1">郵便番号</th>
+            <td class="table__col2"><%= @user.postal_code %></td>
+          </tr>
+          <tr>
+            <th class="table__col1">住所</th>
+            <td class="table__col2"><%= @user.address %></td>
+          </tr>
+          <tr>
+            <th class="table__col1">電話番号</th>
+            <td class="table__col2"><%= @user.phone_number %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h1><%= @user.nickname %> さんの出品商品一覧</h1>
+    <div class="products">
+      <%= render partial: 'product', collection: @user.products %>
+    </div>
+  </div>
+</div>
+
