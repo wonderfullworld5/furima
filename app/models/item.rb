@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  has_one_attached :image
+  has_one_attached :item
 
     validates :itemesname, presence: true
     validates :description, presence: true
