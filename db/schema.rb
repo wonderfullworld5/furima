@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_23_201555) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,6 +45,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_23_201555) do
     t.string "encrypted_password", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.text "text"
+    t.integer "genre_id"
   end
 
   create_table "furimas", charset: "utf8", force: :cascade do |t|
