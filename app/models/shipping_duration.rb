@@ -1,0 +1,2 @@
+class ShippingDuration < ApplicationRecord
+end

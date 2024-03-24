@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_24_053029) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "areas", charset: "utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "articles", charset: "utf8", force: :cascade do |t|
     t.string "nickname", default: "", null: false
     t.string "email", default: "", null: false
@@ -48,6 +54,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
     t.string "title"
     t.text "text"
     t.integer "genre_id"
+  end
+
+  create_table "categories", charset: "utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "conditions", charset: "utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "furimas", charset: "utf8", force: :cascade do |t|
@@ -63,6 +81,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "postages", charset: "utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sessions", charset: "utf8", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
@@ -70,6 +94,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_24_000255) do
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "shipping_durations", charset: "utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :articles  # articlesリソースに対するすべての標準的なルートが自動的に生成
+  resources :articles
   devise_for :users
+  resources :items, only: [:index, :new, :create]
   root 'items#index'
 end
-
