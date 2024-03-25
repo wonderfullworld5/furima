@@ -49,8 +49,9 @@
           カテゴリー
           <span class="indispensable">必須</span>
         </div>
+<%= f.collection_select(:date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
 
-<%= f.collection_select(:shipping_duration_id, ShippingDuration.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
+
 
 
         <div class="weight-bold-text">
@@ -89,7 +90,8 @@
           <span class="indispensable">必須</span>
         </div>
 
-          <%= f.collection_select(:date_id, Date.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
+          <%= f.collection_select(:date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
+
       </div>
     </div>
     <!-- /配送について -->

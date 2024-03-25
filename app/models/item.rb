@@ -1,43 +1,55 @@
 class Item < ApplicationRecord
-  # 商品画像を1枚つけることが必須
+  extend ActiveHash::Associations::ActiveRecordExtensions
+
+  # ActiveHashモデルとの関連付け
+  belongs_to_active_hash :category
+  belongs_to_active_hash :condition
+  belongs_to_active_hash :postage
+  belongs_to_active_hash :area
+
+  # dayに関連付け
+  belongs_to_active_hash :day, class_name: 'DeliveryDate', foreign_key: :date_id
+
+  # 画像の添付を許可し、必須とするバリデーション
   has_one_attached :image
   validates :image, presence: true
-  belongs_to :category
-
-  # 商品名が必須
+  
+  # 商品名が必須であることをバリデーション
   validates :name, presence: true
 
-  # 商品の説明が必須
+  # 商品の説明が必須であることをバリデーション
   validates :description, presence: true
 
-  # カテゴリーの情報が必須
+  # カテゴリーの情報が必須であることをバリデーション
   validates :category, presence: true
 
-  # 商品の状態の情報が必須
+  # 商品の状態の情報が必須であることをバリデーション
   validates :condition, presence: true
 
-  # 配送料の負担の情報が必須
-  validates :shipping_fee_burden, presence: true
+  # 配送料の負担の情報が必須であることをバリデーション
+  validates :postage, presence: true
 
-  # 発送元の地域の情報が必須
-  validates :shipping_area, presence: true
+  # 発送元の地域の情報が必須であることをバリデーション
+  validates :area, presence: true
 
-  # 発送までの日数の情報が必須
-  validates :shipping_days, presence: true
+  # 発送までの日数の情報が必須であることをバリデーション
+  validates :day, presence: true
 
-  # 価格の情報が必須
+  # 価格の情報が必須であることをバリデーション
   validates :price, presence: true
 
-  # 価格の範囲とフォーマットのバリデーション
+  # 価格が300以上9999999以下であることをバリデーション
   validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
+
+  # 価格が半角数字であることをバリデーション
   validates :price, format: { with: /\A[0-9]+\z/, message: "は半角数字で入力してください" }
 
-  # 価格に応じた販売手数料と販売利益の計算
+  # 価格に応じた販売手数料と販売利益の計算を行うコールバック
   before_save :calculate_commission_and_profit
 
   private
 
-  # 販売手数料と販売利益の計算
+  # 販売手数料と販売利益の計算を行うメソッド
   def calculate_commission_and_profit
     if price.present?
       # 販売手数料の計算
