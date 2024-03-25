@@ -49,11 +49,7 @@
           カテゴリー
           <span class="indispensable">必須</span>
         </div>
-<%= f.collection_select(:date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
-
-
-
-
+<%= f.collection_select(:date_id, Category.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
         <div class="weight-bold-text">
           商品の状態
           <span class="indispensable">必須</span>
