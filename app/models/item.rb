@@ -6,9 +6,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :condition
   belongs_to_active_hash :postage
   belongs_to_active_hash :area
-  belongs_to_active_hash :day, class_name: 'Data', primary_key: :your_primary_key_column, foreign_key: :date_id
-  
-  # 不要な attribute メソッドの記述を削除する
+  belongs_to_active_hash :delivery_date, class_name: 'DeliveryDate', foreign_key: :date_id
 
 
   # 画像の添付を許可し、必須とするバリデーション
@@ -46,19 +44,16 @@ class Item < ApplicationRecord
   validates :price, format: { with: /\A[0-9]+\z/, message: "は半角数字で入力してください" }
 
   # 価格に応じた販売手数料と販売利益の計算を行うコールバック
-  before_save :calculate_commission_and_profit
+  before_save :calculate_commission_and_profit, if: :price_changed?
 
   private
 
   # 販売手数料と販売利益の計算を行うメソッド
   def calculate_commission_and_profit
-    if price.present?
-      # 販売手数料の計算
-      self.commission = (price * 0.1).floor
+    # 販売手数料の計算
+    self.commission = (price * 0.1).floor
 
-      # 販売利益の計算
-      self.profit = price - commission
-    end
+    # 販売利益の計算
+    self.profit = price - commission
   end
 end
-
