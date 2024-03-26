@@ -8,6 +8,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :area
   belongs_to_active_hash :day, class_name: 'Data', primary_key: :your_primary_key_column, foreign_key: :date_id
   
+  # 不要な attribute メソッドの記述を削除する
 
 
   # 画像の添付を許可し、必須とするバリデーション

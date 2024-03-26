@@ -6,6 +6,7 @@
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with model: @item do |f| %>
 
+<%= render 'shared/error_messages', model: f.object %>
 
     <!-- インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。 -->
     <!-- render 'shared/error_messages', model: f.object -->
@@ -50,7 +51,8 @@
           カテゴリー
           <span class="indispensable">必須</span>
         </div>
-<%= f.collection_select(:date_id, Category.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
+
+<%= f.collection_select(:delivery_date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, {class:"select-box", id:"item-days"}) %>
         <div class="weight-bold-text">
           商品の状態
           <span class="indispensable">必須</span>
@@ -93,14 +95,7 @@
     </div>
     <!-- /配送について -->
 
-    <!-- 販売価格 -->
-    <div class="sell-price">
-      <div class="weight-bold-text question-text">
-        <span>販売価格<br>(¥300〜9,999,999)</span>
-        <a class="question" href="#">?</a>
-      </div>
-      <div>
-       
+
     <%# 販売価格 %>
     <div class="sell-price">
       <div class="weight-bold-text question-text">

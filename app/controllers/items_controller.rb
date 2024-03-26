@@ -1,9 +1,4 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-
-  def index
-  end
-
   def new
     @item = Item.new
   end
@@ -11,8 +6,9 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to root_path, notice: '商品を出品しました。'
+      redirect_to @item, notice: "商品が正常に出品されました。"
     else
+      flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"
       render :new
     end
   end
@@ -20,6 +16,7 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :category_id, :condition_id, :postage_id, :area_id, :date_id, :price, :image)
+      params.require(:item).permit(:image, :name, :description, :delivery_date_id, :condition_id, :postage_id, :area_id, :date_id, :price)
+    end
   end
-end
+
