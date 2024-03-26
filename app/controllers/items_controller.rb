@@ -6,6 +6,8 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
+      puts @item.errors.full_messages
+
       redirect_to @item, notice: "商品が正常に出品されました。"
     else
       flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"

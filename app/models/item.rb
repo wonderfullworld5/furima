@@ -32,7 +32,7 @@ class Item < ApplicationRecord
   validates :area, presence: true
 
   # 発送までの日数の情報が必須であることをバリデーション
-  validates :day, presence: true
+  validates :delivery_date_id, presence: true
 
   # 価格の情報が必須であることをバリデーション
   validates :price, presence: true
