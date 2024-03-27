@@ -8,7 +8,6 @@ class Item < ApplicationRecord
   belongs_to_active_hash :area
   belongs_to_active_hash :delivery_date, class_name: 'DeliveryDate', foreign_key: :date_id
 
-
   # 画像の添付を許可し、必須とするバリデーション
   has_one_attached :image
   validates :image, presence: true
@@ -20,7 +19,7 @@ class Item < ApplicationRecord
   validates :description, presence: true
 
   # カテゴリーの情報が必須であることをバリデーション
-  validates :category, presence: true
+  validates :category, presence: true, if: :should_validate_category?
 
   # 商品の状態の情報が必須であることをバリデーション
   validates :condition, presence: true
@@ -32,7 +31,7 @@ class Item < ApplicationRecord
   validates :area, presence: true
 
   # 発送までの日数の情報が必須であることをバリデーション
-  validates :delivery_date_id, presence: true
+  validates :delivery_date_id, presence: true, if: :should_validate_delivery_date?
 
   # 価格の情報が必須であることをバリデーション
   validates :price, presence: true
@@ -47,6 +46,16 @@ class Item < ApplicationRecord
   before_save :calculate_commission_and_profit, if: :price_changed?
 
   private
+
+  # カテゴリーのバリデーションが必要かどうかを確認するメソッド
+  def should_validate_category?
+    category.present?
+  end
+
+  # 配送日のバリデーションが必要かどうかを確認するメソッド
+  def should_validate_delivery_date?
+    delivery_date.present?
+  end
 
   # 販売手数料と販売利益の計算を行うメソッド
   def calculate_commission_and_profit
