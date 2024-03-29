@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   # ActiveHashモデルとの関連付け
+  belongs_to :user
   belongs_to_active_hash :category
   belongs_to_active_hash :condition
   belongs_to_active_hash :postage
@@ -13,10 +14,10 @@ class Item < ApplicationRecord
   validates :image, presence: true
   
   # 商品名が必須であることをバリデーション
-  validates :name, presence: true
+  validates :description, presence: true
 
   # 商品の説明が必須であることをバリデーション
-  validates :description, presence: true
+  validates :detail, presence: true
 
   # カテゴリーの情報が必須であることをバリデーション
   validates :category, presence: true, if: :should_validate_category?
