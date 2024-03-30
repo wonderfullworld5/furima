@@ -12,7 +12,7 @@ class Item < ApplicationRecord
   # 画像の添付を許可し、必須とするバリデーション
   has_one_attached :image
   validates :image, presence: true
-  
+
   # 商品名が必須であることをバリデーション
   validates :description, presence: true
 

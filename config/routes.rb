@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   devise_for :users
   resources :items
   root 'items#index'
-  get '/items/user', to: 'items#new', as: 'new_user_item'
+  get '/items/new_user', to: 'items#new', as: 'new_user_item'
 end
 

@@ -26,13 +26,13 @@
           商品名
           <span class="indispensable">必須</span>
         </div>
-        <%= f.text_area :name, class: "items-text", id: "item-name", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
+        <%= f.text_area :description, class: "items-text", id: "item-description", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
         <div class="items-explain">
           <div class="weight-bold-text">
             商品の説明
             <span class="indispensable">必須</span>
           </div>
-          <%= f.text_area :description, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
+          <%= f.text_area :detail, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
         </div>
       </div>
       <!-- /商品名と商品説明 -->
@@ -44,13 +44,17 @@
             カテゴリー
             <span class="indispensable">必須</span>
           </div>
+
           <%= f.collection_select(:category_id, Category.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-category" }) %>
+
           <div class="weight-bold-text">
             商品の状態
             <span class="indispensable">必須</span>
           </div>
-          <%= f.collection_select :condition_id, Condition.all, :id, :name, { prompt: "選択してください" }, class: "select-box", id: "item-sales-status" %>
-        </div>
+
+          <%= f.collection_select(:condition_id, Condition.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-sales-status" }) %>
+
+          </div>
       </div>
       <!-- /商品の詳細 -->
       <!-- 配送について -->
@@ -74,7 +78,7 @@
             発送までの日数
             <span class="indispensable">必須</span>
           </div>
-          <%= f.collection_select(:date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-days" }) %>
+          <%= f.collection_select(:date_id, DeliveryDate.all, :id, :date, { prompt: "選択してください" }, { class: "select-box", id: "item-days" }) %>
         </div>
       </div>
       <!-- /配送について -->
@@ -128,7 +132,11 @@
     <%# /注意書き %>
     <%# 下部ボタン %>
     <div class="sell-btn-contents">
-      <%= f.submit "出品する" ,class:"sell-btn" %>
+      <%= link_to "出品する", new_item_path, class: 'purchase-btn' do %>
+  <span class='purchase-btn-text'>出品する</span>
+  <%= image_tag 'icon_camera.png', size: '185x50', class: "purchase-btn-icon" %>
+<% end %>
+
       <%=link_to 'もどる', root_path, class:"back-btn" %>
     </div>
     <%# /下部ボタン %>
