@@ -23,6 +23,7 @@ class ItemsController < ApplicationController
   end
 
   def create
+   
     @item = current_user.items.build(item_params)
     check_date_id_presence  # 日付の存在を確認するメソッドを呼び出す
 
@@ -30,6 +31,7 @@ class ItemsController < ApplicationController
       redirect_to root_path, notice: "商品が正常に出品されました。"
     else
       flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"
+      binding.pry
       # デバッグ用にフォームの送信内容を出力
       Rails.logger.debug "フォームの送信内容: #{params.inspect}"
       render :new
