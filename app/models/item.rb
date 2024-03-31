@@ -1,13 +1,14 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :user
+  has_one :record
 
   # ActiveHashモデルとの関連付け
-  belongs_to :user
   belongs_to_active_hash :category
   belongs_to_active_hash :condition
   belongs_to_active_hash :postage
   belongs_to_active_hash :area
-  belongs_to_active_hash :delivery_date, class_name: 'DeliveryDate', foreign_key: :date_id
+  belongs_to_active_hash :delivery_date
 
   # 画像の添付を許可し、必須とするバリデーション
   has_one_attached :image
@@ -20,7 +21,7 @@ class Item < ApplicationRecord
   validates :detail, presence: true
 
   # カテゴリーの情報が必須であることをバリデーション
-  validates :category, presence: true, if: :should_validate_category?
+  validates :category, presence: true
 
   # 商品の状態の情報が必須であることをバリデーション
   validates :condition, presence: true
@@ -32,7 +33,7 @@ class Item < ApplicationRecord
   validates :area, presence: true
 
   # 発送までの日数の情報が必須であることをバリデーション
-  validates :delivery_date_id, presence: true, if: :should_validate_delivery_date?
+  validates :delivery_date_id, presence: true
 
   # 価格の情報が必須であることをバリデーション
   validates :price, presence: true
@@ -43,8 +44,8 @@ class Item < ApplicationRecord
   # 価格が半角数字であることをバリデーション
   validates :price, format: { with: /\A[0-9]+\z/, message: "は半角数字で入力してください" }
 
-  # 価格に応じた販売手数料と販売利益の計算を行うコールバック
-  before_save :calculate_commission_and_profit, if: :price_changed?
+  # 価格に応じた販売手数料と販売利益の計算を行う
+  before_save :calculate_commission_and_profit
 
   private
 
