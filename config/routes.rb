@@ -6,3 +6,4 @@ Rails.application.routes.draw do
   get '/items/new_user', to: 'items#new', as: 'new_user_item'
 end
 
+
