@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
     if @item.save
       Rails.logger.debug @item.errors.full_messages
 # 商品情報が正常に保存された場合
-@record = current_user.records.create(item: @item)
+#@record = current_user.records.create(item: @item)
 redirect_to root_path, notice: "商品が正常に出品されました。"
 else
   Rails.logger.error @item.errors.full_messages.join(", ")
@@ -44,12 +44,12 @@ else
   end
 
   def item_params
-    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :date_id, :price)
+    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :date_id, :price, :delivery_date_id)
   end
 
   # date_idの存在を確認
   def check_date_id_presence
-    unless params.dig(:item, :date_id).present?
+    unless params.dig(:item, :delivery_date_id).present?
       flash.now[:alert] = "発送までの日数を選択してください。"
     end
   end

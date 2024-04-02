@@ -1,5 +1,16 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
+  #commission と profit の仮想属性を追加
+  attr_accessor :commission, :profit
+
+  def calculate_commission_and_profit
+    # 販売手数料の計算
+    self.commission = (price * 0.1).floor
+
+    # 販売利益の計算
+    self.profit = price - commission
+  end
+  
   belongs_to :user
   has_one :record
 
@@ -57,14 +68,5 @@ class Item < ApplicationRecord
   # 配送日のバリデーションが必要かどうかを確認するメソッド
   def should_validate_delivery_date?
     delivery_date.present?
-  end
-
-  # 販売手数料と販売利益の計算を行うメソッド
-  def calculate_commission_and_profit
-    # 販売手数料の計算
-    self.commission = (price * 0.1).floor
-
-    # 販売利益の計算
-    self.profit = price - commission
   end
 end
