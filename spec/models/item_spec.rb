@@ -1,6 +1,3 @@
-require 'rails_helper'
-require 'faker'
-
 RSpec.describe Item, type: :model do
   describe 'validations' do
     before do
@@ -27,33 +24,33 @@ RSpec.describe Item, type: :model do
       end
 
       it 'is not valid without a category' do
-        @item.category = nil
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
 
       it 'is not valid without a condition' do
-        @item.condition = nil
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
 
       it 'is not valid without a shipping_fee' do
-        @item.shipping_fee = nil
+        @item.postage_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping fee can't be blank")
+        expect(@item.errors.full_messages).to include("Postage can't be blank")
       end
 
       it 'is not valid without a prefecture' do
-        @item.prefecture = nil
+        @item.area_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
+        expect(@item.errors.full_messages).to include("Area can't be blank")
       end
 
       it 'is not valid without shipping_days' do
-        @item.shipping_days = nil
+        @item.delivery_date_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping days can't be blank")
+        expect(@item.errors.full_messages).to include("Delivery date can't be blank")
       end
 
       it 'is not valid without a price' do
@@ -78,6 +75,18 @@ RSpec.describe Item, type: :model do
         @item.price = 'abc'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+
+      it 'is not valid without a user' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
+
+      it 'is not valid without attached images' do
+        @item.images.attach(io: File.open('/path/to/invalid/image.png'), filename: 'image.png', content_type: 'image/png')
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Images must be attached")
       end
     end
   end

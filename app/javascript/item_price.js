@@ -9,4 +9,5 @@ document.addEventListener("DOMContentLoaded", function() {
     const profit = price - commission;
     commissionOutput.textContent = commission;
     profitOutput.textContent = profit;
-  }
+  });
+});
