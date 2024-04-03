@@ -21,6 +21,9 @@ class Item < ApplicationRecord
   belongs_to_active_hash :area
   belongs_to_active_hash :delivery_date
 
+  #delivery_date_id の存在を確認するバリデーション
+  validates :delivery_date_id, presence: true
+
   # 画像の添付を許可し、必須とするバリデーション
   has_one_attached :image
   validates :image, presence: true

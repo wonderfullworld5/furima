@@ -23,17 +23,19 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = current_user.items.build(item_params)
-      check_date_id_presence  # 日付の存在を確認するメソッドを呼び出す
-
+    puts current_user
+    @item = current_user.items.build(item_params) 
+      #check_date_id_presence  # 日付の存在を確認するメソッドを呼び出す
     if @item.save
+      redirect_to @item
       Rails.logger.debug @item.errors.full_messages
+      
 # 商品情報が正常に保存された場合
 #@record = current_user.records.create(item: @item)
-redirect_to root_path, notice: "商品が正常に出品されました。"
+#redirect_to @item, notice: "商品が正常に出品されました。"
 else
   Rails.logger.error @item.errors.full_messages.join(", ")
-  flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"
+  #flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"
   render :new
     end
   end
