@@ -10,9 +10,9 @@ class Item < ApplicationRecord
     # 販売利益の計算
     self.profit = price - commission
   end
-  
+
   belongs_to :user
-  has_one :record
+  #has_one :record
 
   # ActiveHashモデルとの関連付け
   belongs_to_active_hash :category
@@ -20,6 +20,9 @@ class Item < ApplicationRecord
   belongs_to_active_hash :postage
   belongs_to_active_hash :area
   belongs_to_active_hash :delivery_date
+
+  validates :category, :condition, :postage, :area, :delivery_date, presence: true
+  validates :category, :condition, :postage, :area, :delivery_date, exclusion: { in: [1], message: "can't be '---'" }
 
   #delivery_date_id の存在を確認するバリデーション
   validates :delivery_date_id, presence: true
@@ -56,7 +59,7 @@ class Item < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
 
   # 価格が半角数字であることをバリデーション
-  validates :price, format: { with: /\A[0-9]+\z/, message: "は半角数字で入力してください" }
+  validates :price, only_integer: true
 
   # 価格に応じた販売手数料と販売利益の計算を行う
   before_save :calculate_commission_and_profit

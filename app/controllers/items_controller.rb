@@ -2,34 +2,25 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:edit, :update, :destroy]
 
-  def new
-    if user_signed_in?
-      @item = current_user.items.build
-    else
-      redirect_to new_user_session_path, alert: "ログインしてください。"
-    end
-  end
-
   def edit
     # 編集ページの表示はビューで実装するため、特に何も記述しない
   end
 
-  def show
-    if params[:id] == "new_user"
+  #def show
+    #if params[:id] == "new_user"
       redirect_to new_user_path
-    else
-      @item = Item.find(params[:id])
-    end
-  end
+    #else
+      #@item = Item.find(params[:id])
+    #end
+  #end
 
   def create
     puts current_user
     @item = current_user.items.build(item_params) 
       #check_date_id_presence  # 日付の存在を確認するメソッドを呼び出す
     if @item.save
-      redirect_to @item
+      redirect_to root_path
       Rails.logger.debug @item.errors.full_messages
-      
 # 商品情報が正常に保存された場合
 #@record = current_user.records.create(item: @item)
 #redirect_to @item, notice: "商品が正常に出品されました。"
