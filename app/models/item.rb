@@ -17,7 +17,6 @@ class Item < ApplicationRecord
   # バリデーション
   validates :description, :detail, :category, :condition, :postage, :area, :delivery_date, :delivery_date_id, :price, presence: true
   validates :category, :condition, :postage, :area, :delivery_date, exclusion: { in: [1], message: "can't be '---'" }
-  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
   validates :price, only_integer: true
 
   # 画像の添付を許可し、必須とするバリデーション
