@@ -1,8 +1,32 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  #commission と profit の仮想属性を追加
+
+  # 仮想属性の追加
   attr_accessor :commission, :profit
 
+  # 価格に応じた販売手数料と販売利益の計算を行う
+  before_save :calculate_commission_and_profit
+
+  # バリデーション
+  validates :description, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price, :user_id, presence: true
+  validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, exclusion: { in: [1], message: "can't be '---'" }
+  validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
+  validate :images_presence
+
+  # 画像の添付を許可
+  has_many_attached :images
+
+  # ActiveHashモデルとの関連付け
+  belongs_to :user
+  belongs_to_active_hash :category
+  belongs_to_active_hash :condition
+  belongs_to_active_hash :postage
+  belongs_to_active_hash :area
+  belongs_to_active_hash :delivery_date
+
+  private
+
+  # 販売手数料と販売利益の計算
   def calculate_commission_and_profit
     # 販売手数料の計算
     self.commission = (price * 0.1).floor
@@ -11,68 +35,8 @@ class Item < ApplicationRecord
     self.profit = price - commission
   end
 
-  belongs_to :user
-  #has_one :record
-
-  # ActiveHashモデルとの関連付け
-  belongs_to_active_hash :category
-  belongs_to_active_hash :condition
-  belongs_to_active_hash :postage
-  belongs_to_active_hash :area
-  belongs_to_active_hash :delivery_date
-
-  validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, presence: true
-  validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, exclusion: { in: [1], message: "can't be '---'" }
-
-  #delivery_date_id の存在を確認するバリデーション
-  validates :delivery_date_id, presence: true
-
-  # 画像の添付を許可し、必須とするバリデーション
-  has_one_attached :image
-  validates :image, presence: true
-
-  # 商品名が必須であることをバリデーション
-  validates :description, presence: true
-
-  # 商品の説明が必須であることをバリデーション
-  validates :detail, presence: true
-
-  # カテゴリーの情報が必須であることをバリデーション
-  validates :category, presence: true
-
-  # 商品の状態の情報が必須であることをバリデーション
-  validates :condition, presence: true
-
-  # 配送料の負担の情報が必須であることをバリデーション
-  validates :postage, presence: true
-
-  # 発送元の地域の情報が必須であることをバリデーション
-  validates :area, presence: true
-
-  # 発送までの日数の情報が必須であることをバリデーション
-  validates :delivery_date_id, presence: true
-
-  # 価格の情報が必須であることをバリデーション
-  validates :price, presence: true
-
-  # 価格が300以上9999999以下であることをバリデーション
-  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
-
-  # 価格が半角数字であることをバリデーション
-  validates :price, only_integer: true
-
-  # 価格に応じた販売手数料と販売利益の計算を行う
-  before_save :calculate_commission_and_profit
-
-  private
-
-  # カテゴリーのバリデーションが必要かどうかを確認するメソッド
-  def should_validate_category?
-    category.present?
-  end
-
-  # 配送日のバリデーションが必要かどうかを確認するメソッド
-  def should_validate_delivery_date?
-    delivery_date.present?
+  # バリデーションメソッド
+  def images_presence
+    errors.add(:images, "can't be blank") if images.blank?
   end
 end

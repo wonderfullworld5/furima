@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
 
   #def show
     #if params[:id] == "new_user"
-      redirect_to new_user_path
+      # new_user_path
     #else
       #@item = Item.find(params[:id])
     #end
