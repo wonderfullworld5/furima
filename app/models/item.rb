@@ -8,9 +8,9 @@ class Item < ApplicationRecord
   before_save :calculate_commission_and_profit
 
   # バリデーション
-  validates :description, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price, :user_id, presence: true
-  validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, exclusion: { in: [1], message: "can't be '---'" }
-  validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
+  validates :description, :user_id, presence: true
+  validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, exclusion: { in: [1], message: "can't be '---'" }, presence: true
+  validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
   validate :images_presence, true
 
 
