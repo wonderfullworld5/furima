@@ -2,34 +2,32 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:edit, :update, :destroy]
 
+  def new
+    @item = Item.new
+  end
+
   def edit
     # 編集ページの表示はビューで実装するため、特に何も記述しない
   end
 
-  #def show
-    #if params[:id] == "new_user"
-      # new_user_path
-    #else
-      #@item = Item.find(params[:id])
-    #end
-  #end
-
   def create
     puts current_user
     @item = current_user.items.build(item_params) 
-      #check_date_id_presence  # 日付の存在を確認するメソッドを呼び出す
+
+    # アップロードされた画像があるかどうかを確認する
+    if params[:item][:image].present?
+      # アップロードされた画像をActive Storageを使用して保存する
+      @item.image.attach(params[:item][:image])
+    end
+
     if @item.save
       redirect_to root_path
-      Rails.logger.debug @item.errors.full_messages
-# 商品情報が正常に保存された場合
-#@record = current_user.records.create(item: @item)
-#redirect_to @item, notice: "商品が正常に出品されました。"
-else
-  Rails.logger.error @item.errors.full_messages.join(", ")
-  #flash.now[:alert] = "商品の出品に失敗しました。入力内容を確認してください。"
-  render :new
+    else
+      Rails.logger.error @item.errors.full_messages.join(", ")
+      render :new
     end
   end
+  
   private
 
   def set_item
@@ -37,7 +35,7 @@ else
   end
 
   def item_params
-    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :date_id, :price, :delivery_date_id)
+    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price)
   end
 
   # date_idの存在を確認

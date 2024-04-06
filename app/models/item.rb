@@ -15,6 +15,7 @@ class Item < ApplicationRecord
 
   # 画像の添付を許可
   has_many_attached :images
+  has_one_attached :image
 
   # ActiveHashモデルとの関連付け
   belongs_to :user
@@ -23,8 +24,6 @@ class Item < ApplicationRecord
   belongs_to_active_hash :postage
   belongs_to_active_hash :area
   belongs_to_active_hash :delivery_date
-
-  private
 
   # 販売手数料と販売利益の計算
   def calculate_commission_and_profit
@@ -35,7 +34,13 @@ class Item < ApplicationRecord
     self.profit = price - commission
   end
 
-  # バリデーションメソッド
+  # トリムメソッド
+  def trim_values
+    self.description.strip! if description.present?
+    self.detail.strip! if detail.present?
+  end
+
+  # 画像の存在チェック
   def images_presence
     errors.add(:images, "can't be blank") if images.blank?
   end
