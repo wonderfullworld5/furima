@@ -18,9 +18,11 @@ class ItemsController < ApplicationController
     if params[:item][:image].present?
       # アップロードされた画像をActive Storageを使用して保存する
       @item.image.attach(params[:item][:image])
+      binding.pry  
     end
 
     if @item.save
+
       redirect_to root_path
     else
       Rails.logger.error @item.errors.full_messages.join(", ")
