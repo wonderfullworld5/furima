@@ -41,6 +41,8 @@ class Item < ApplicationRecord
   end
 end
 
+private
+
 
   # 画像の存在チェック
   def images_presence

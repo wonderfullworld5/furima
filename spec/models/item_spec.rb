@@ -6,7 +6,7 @@ RSpec.describe Item, type: :model do
     context 'when all attributes are valid' do
       it 'is valid with valid attributes' do
         user = FactoryBot.create(:user)
-        item = FactoryBot.build(:item, user: user)
+        item = FactoryBot.build(:item, user: user, description: 'valid description', category_id: 2, condition_id: 2, postage_id: 2, area_id: 3, delivery_date_id: 2, price: 33333)
         item.images.attach(io: File.open(Rails.root.join('spec', 'support', 'images', 'valid_image.png')), filename: 'valid_image.png', content_type: 'image/png')
        
         expect(item).to be_valid
@@ -70,7 +70,8 @@ RSpec.describe Item, type: :model do
         expect(item).not_to be_valid
       end
     end
-   context 'when user is not associated' do
+
+    context 'when user is not associated' do
       let(:item) { FactoryBot.build(:item, user: nil) }
 
       it 'is not valid without a user' do
