@@ -4,8 +4,8 @@
   </header>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
-    <%= form_with model: @item do |f| %>
-      <%= render 'shared/error_messages', model: f.object %>
+    <%= form_with(model: @item, local: true, multipart: true) do |form| %>
+      <%= render 'shared/error_messages', model: form.object %>
       <!-- 商品画像 -->
       <div class="img-upload">
         <div class="weight-bold-text">
@@ -16,7 +16,7 @@
           <p>
             クリックしてファイルをアップロード
           </p>
-          <%= f.file_field :image, id: "item-image" %>
+          <%= form.file_field :image, id: "item-image" %>
         </div>
       </div>
       <!-- /商品画像 -->
@@ -26,14 +26,8 @@
           商品名
           <span class="indispensable">必須</span>
         </div>
-        <%= f.text_area :description, class: "items-text", id: "item-description", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
-        <div class="items-explain">
-          <div class="weight-bold-text">
-            商品の説明
-            <span class="indispensable">必須</span>
-          </div>
-          <%= f.text_area :detail, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
-        </div>
+        <%= form.text_area :description, class: "items-text", id: "item-description", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
+        <!-- 以下略 -->
       </div>
       <!-- /商品名と商品説明 -->
       <!-- 商品の詳細 -->
@@ -44,16 +38,12 @@
             カテゴリー
             <span class="indispensable">必須</span>
           </div>
-
-          <%= f.collection_select(:category_id, Category.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-category" }) %>
-
+          <%= form.collection_select(:category_id, Category.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-category" }) %>
           <div class="weight-bold-text">
             商品の状態
             <span class="indispensable">必須</span>
           </div>
-
-          <%= f.collection_select(:condition_id, Condition.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-sales-status" }) %>
-
+          <%= form.collection_select(:condition_id, Condition.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-sales-status" }) %>
         </div>
       </div>
       <!-- /商品の詳細 -->
@@ -68,17 +58,17 @@
             配送料の負担
             <span class="indispensable">必須</span>
           </div>
-          <%= f.collection_select(:postage_id, Postage.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-postage" }) %>
+          <%= form.collection_select(:postage_id, Postage.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-postage" }) %>
           <div class="weight-bold-text">
             発送元の地域
             <span class="indispensable">必須</span>
           </div>
-          <%= f.collection_select(:area_id, Area.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-area" }) %>
+          <%= form.collection_select(:area_id, Area.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-area" }) %>
           <div class="weight-bold-text">
             発送までの日数
             <span class="indispensable">必須</span>
           </div>
-          <%= f.collection_select(:delivery_date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-delivery-date" }) %>
+          <%= form.collection_select(:delivery_date_id, DeliveryDate.all, :id, :name, { prompt: "選択してください" }, { class: "select-box", id: "item-delivery-date" }) %>
         </div>
       </div>
       <!-- /配送について -->
@@ -95,7 +85,7 @@
               <span class="indispensable">必須</span>
             </div>
             <span class="sell-yen">¥</span>
-            <%= f.text_field :price, class: "price-input", id: "item-price", placeholder: "例）300" %>
+            <%= form.text_field :price, class: "price-input", id: "item-price", placeholder: "例）300" %>
           </div>
           <div class="price-content">
             <span>販売手数料 (10%)</span>
@@ -116,7 +106,7 @@
       <div class="caution">
         <p class="sentence">
           <a href="#">禁止されている出品、</a>
-          <a href="#">行為</a>
+<a href="#">行為</a>
           を必ずご確認ください。
         </p>
         <p class="sentence">
@@ -131,20 +121,16 @@
         </p>
       </div>
       <%# /注意書き %>
-      <%# 下部ボタン %>
-
-<div class="sell-btn-contents">
-      <%= f.submit "出品する" ,class:"sell-btn" %>
-      <%= link_to new_item_path, class: 'purchase-btn' do %>
-        <span class='purchase-btn-text'>出品する</span>
-        <%= image_tag 'icon_camera.png', size: '185x50', class: "purchase-btn-icon" %>
-      <% end %>
-
-      <%= link_to 'もどる', root_path, class:"back-btn" %>
+      <div class="sell-btn-contents">
+        <%= form.submit "出品する", class: "sell-btn" %>
+        <%= link_to new_item_path, class: 'purchase-btn' do %>
+          <span class='purchase-btn-text'>出品する</span>
+          <%= image_tag 'icon_camera.png', size: '185x50', class: "purchase-btn-icon" %>
         <% end %>
-    </div>
-    <%# /下部ボタン %>
-
+        <%= link_to 'もどる', root_path, class: "back-btn" %>
+      </div>
+      <%# /下部ボタン %>
+    <% end %>
   </div>
   <footer class="items-sell-footer">
     <ul class="menu">
@@ -152,10 +138,9 @@
       <li><a href="#">フリマ利用規約</a></li>
       <li><a href="#">特定商取引に関する表記</a></li>
     </ul>
-    <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
+    <%= link_to image_tag('furima-logo-color.png', size: '185x50'), "/" %>
     <p class="inc">
       ©︎Furima,Inc.
     </p>
   </footer>
 </div>
-
