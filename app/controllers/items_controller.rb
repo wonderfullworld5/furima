@@ -11,25 +11,16 @@ class ItemsController < ApplicationController
   end
 
   def create
-    puts current_user
-    @item = current_user.items.build(item_params) 
-
-    # アップロードされた画像があるかどうかを確認する
-    if params[:item][:image].present?
-      # アップロードされた画像をActive Storageを使用して保存する
-      @item.image.attach(params[:item][:image])
-
-    end
-
+    @item = current_user.items.build(item_params)
     if @item.save
-
-      redirect_to root_path
+      flash[:success] = 'Item created!'
+      redirect_to @item
     else
-      Rails.logger.error @item.errors.full_messages.join(", ")
-      render :new
+      render 'new'
     end
   end
-  
+end
+
   private
 
   #def set_item
@@ -46,4 +37,3 @@ class ItemsController < ApplicationController
       flash.now[:alert] = "発送までの日数を選択してください。"
     end
   end
-end
