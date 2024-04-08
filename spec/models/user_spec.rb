@@ -45,7 +45,7 @@ RSpec.describe User, type: :model do
 
     context '新規登録できない時' do
       it 'ニックネームが空では登録できない' do
-        @user.nickname = ""
+        @user.nickname = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Nickname can't be blank")
       end
@@ -59,20 +59,20 @@ RSpec.describe User, type: :model do
       it 'メールアドレスが正しくない場合は登録できない' do
         user = FactoryBot.build(:user, email: 'test')
         user.valid?
-        expect(user.errors.full_messages).to include("Email is invalid")
+        expect(user.errors.full_messages).to include('Email is invalid')
       end
 
       it '重複したメールアドレスの場合は登録できない' do
         user = FactoryBot.create(:user)
         another_user = FactoryBot.build(:user, email: user.email)
         another_user.valid?
-        expect(another_user.errors.full_messages).to include("Email has already been taken")
+        expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
 
       it 'emailが@を含まないと登録できない' do
         user = FactoryBot.build(:user, email: 'testexample.com')
         user.valid?
-        expect(user.errors.full_messages).to include("Email is invalid")
+        expect(user.errors.full_messages).to include('Email is invalid')
       end
 
       it 'パスワードが空では登録できない' do
@@ -84,7 +84,7 @@ RSpec.describe User, type: :model do
       it 'パスワードが5文字以下では登録できない' do
         user = FactoryBot.build(:user, password: '12345', password_confirmation: '12345')
         user.valid?
-        expect(user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
+        expect(user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
 
       it 'パスワードとパスワード確認が一致しないと登録できない' do
@@ -102,7 +102,7 @@ RSpec.describe User, type: :model do
       it '姓（カナ）にカタカナ以外の文字が含まれる場合は登録できない' do
         user = FactoryBot.build(:user, last_name_kana: 'やまだ')
         user.valid?
-        expect(user.errors.full_messages).to include("Last name kana is invalid")
+        expect(user.errors.full_messages).to include('Last name kana is invalid')
       end
 
       it '名が空では登録できない' do
@@ -120,7 +120,7 @@ RSpec.describe User, type: :model do
       it '名（カナ）にカタカナ以外の文字が含まれる場合は登録できない' do
         user = FactoryBot.build(:user, first_name_kana: 'たろう')
         user.valid?
-        expect(user.errors.full_messages).to include("First name kana is invalid")
+        expect(user.errors.full_messages).to include('First name kana is invalid')
       end
 
       it '生年月日が空だと登録できない' do

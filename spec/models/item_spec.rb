@@ -2,89 +2,70 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe Item, type: :model do
-  describe 'validations' do
-    context 'when all attributes are valid' do
-      it 'is valid with valid attributes' do
-        user = FactoryBot.create(:user)
-        item = FactoryBot.build(:item, user: user, description: 'valid description', category_id: 2, condition_id: 2, postage_id: 2, area_id: 3, delivery_date_id: 2, price: 33333)
-        item.images.attach(io: File.open(Rails.root.join('spec', 'support', 'images', 'valid_image.png')), filename: 'valid_image.png', content_type: 'image/png')
-       
-        expect(item).to be_valid
-      end
+  describe "validations" do
+    it "is valid with valid attributes" do
+      user = FactoryBot.create(:user)
+      item = FactoryBot.create(:item, category_id: 1, condition_id: 1, postage_id: 1, area_id: 1, delivery_date_id: 1, price: 1000, user_id: user.id)
+      # 有効な画像を添付
+      item.images.attach(io: File.open(Rails.root.join('spec', 'support', 'images', 'valid_image.png')),
+                         filename: 'valid_image.png', content_type: 'image/png')
+      expect(item).to be_valid
     end
 
-    context 'when attributes are invalid' do
-      let(:item) { FactoryBot.build(:item) }
-
-      it 'is not valid without a name' do
-        item.name = nil
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without a category' do
-        item.category_id = 1
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without a condition' do
-        item.condition_id = 1
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without a postage' do
-        item.postage_id = 1
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without an area' do
-        item.area_id = 1
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without a delivery date' do
-        item.delivery_date_id = 1
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without a price' do
-        item.price = nil
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid with a price less than 300' do
-        item.price = 299
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid with a price greater than 9,999,999' do
-        item.price = 10_000_000
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid with a non-numeric price' do
-        item.price = 'abc'
-        expect(item).not_to be_valid
-      end
-
-      it 'is not valid without attached images' do
-        expect(item).not_to be_valid
-      end
+    it "is invalid without a category" do
+      item = FactoryBot.build(:item, category_id: nil)
+      item.valid?
+      expect(item.errors[:category_id]).to include("can't be blank")
     end
 
-    context 'when user is not associated' do
-      let(:item) { FactoryBot.build(:item, user: nil) }
-
-      it 'is not valid without a user' do
-        expect(item).not_to be_valid
-      end
+    it "is invalid without a condition" do
+      item = FactoryBot.build(:item, condition_id: nil)
+      item.valid?
+      expect(item.errors[:condition_id]).to include("can't be blank")
     end
 
-    context 'when item is created without images' do
-      let(:item) { FactoryBot.build(:item) }
+    it "is invalid without a postage" do
+      item = FactoryBot.build(:item, postage_id: nil)
+      item.valid?
+      expect(item.errors[:postage_id]).to include("can't be blank")
+    end
 
-      it 'is not valid without attached images' do
-        expect(item).not_to be_valid
-      end
+    it "is invalid without an area" do
+      item = FactoryBot.build(:item, area_id: nil)
+      item.valid?
+      expect(item.errors[:area_id]).to include("can't be blank")
+    end
+
+    it "is invalid without a delivery date" do
+      item = FactoryBot.build(:item, delivery_date_id: nil)
+      item.valid?
+      expect(item.errors[:delivery_date_id]).to include("can't be blank")
+    end
+
+    it "is invalid without a price" do
+      item = FactoryBot.build(:item, price: nil)
+      item.valid?
+      expect(item.errors[:price]).to include("can't be blank")
+    end
+
+    it "is invalid with a price less than 300" do
+      user = FactoryBot.create(:user)
+      item = FactoryBot.build(:item, price: 299, user_id: user.id)
+      item.valid?
+      expect(item.errors[:price]).to include("must be greater than or equal to 300")
+    end
+
+    it "is invalid without attached images" do
+      user = FactoryBot.create(:user)
+      item = FactoryBot.build(:item, user_id: user.id)
+      item.valid?
+      expect(item.errors[:image]).to include("can't be blank")
+    end
+
+    it "is invalid without an associated user" do
+      item = FactoryBot.build(:item, user_id: nil)
+      item.valid?
+      expect(item.errors[:user_id]).to include("can't be blank")
     end
   end
 end

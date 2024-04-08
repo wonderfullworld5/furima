@@ -23,17 +23,18 @@ end
 
   private
 
-  #def set_item
-    #@item = Item.find(params[:id])
-  #end
+# def set_item
+# @item = Item.find(params[:id])
+# end
 
-  def item_params
-    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price)
-  end
+def item_params
+  params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id,
+                               :delivery_date_id, :price)
+end
 
-  # date_idの存在を確認
-  def check_date_id_presence
-    unless params.dig(:item, :delivery_date_id).present?
-      flash.now[:alert] = "発送までの日数を選択してください。"
-    end
-  end
+# date_idの存在を確認
+def check_date_id_presence
+  return if params.dig(:item, :delivery_date_id).present?
+
+  flash.now[:alert] = '発送までの日数を選択してください。'
+end
