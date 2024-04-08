@@ -81,8 +81,9 @@ group :development do
 
 end
 gem 'pg'
+gem 'pry-rails'
 gem 'devise'
 gem 'activerecord-session_store'
-
+gem 'active_hash'
 
 
