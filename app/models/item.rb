@@ -27,19 +27,19 @@ class Item < ApplicationRecord
 
   # トリムメソッド
   def trim_values
-    self.description&.strip!
-    self.detail&.strip!
+    description&.strip!
+    detail&.strip!
   end
 
   private
 
-# 画像の存在チェック
-def image_presence
-  errors.add(:image, "can't be blank") unless image.attached?
-end
+  # 画像の存在チェック
+  def image_presence
+    images.attached?
+  end
 
-# 販売手数料と販売利益の計算と画像の存在チェック
-before_save :calculate_commission_and_profit, :image_presence
+  # 販売手数料と販売利益の計算と画像の存在チェック
+  before_save :calculate_commission_and_profit, :image_presence
 
   # 販売手数料と販売利益の計算
   def calculate_commission_and_profit
