@@ -54,6 +54,14 @@ RSpec.describe Item, type: :model do
         expect(@item.errors[:price]).to include('must be greater than or equal to 300')
       end
 
+      it '価格が9999999を超える場合は保存できない' do
+        user = FactoryBot.create(:user)
+        item = FactoryBot.build(:item, price: 10000000, user_id: user.id)
+        item.valid?
+        expect(item.errors[:price]).to include('must be less than or equal to 9999999')
+      end
+
+      
       it '画像が添付されていない場合、無効' do
         @item.image.detach
         @item.valid?
