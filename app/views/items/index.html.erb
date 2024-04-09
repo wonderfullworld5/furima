@@ -129,6 +129,12 @@
     <ul class='item-lists'>
  
       <%# 商品のインスタンス変数になにか入っている場合、中身のすべてを展開できるようにしましょう %>
+<% @items.each do |item| %>
+  <%= image_tag item.image %>
+  <%= item.price %>
+  <%= item.name %>
+  <%= item.postage.name %>
+<% end %>
 
         <div class='item-img-content'>
           <%= image_tag "item-sample.png", class: "item-img" %>
