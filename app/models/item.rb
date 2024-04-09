@@ -10,15 +10,11 @@ class Item < ApplicationRecord
   belongs_to_active_hash :area
   belongs_to_active_hash :delivery_date
 
-
   # バリデーション
   validates :description, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price,  presence: true
-   # ActiveHashモデルのカラムに対するバリデーション
+  # ActiveHashモデルのカラムに対するバリデーション
   validates :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, numericality: { other_than: 1  , message: "can't be blank"}
-
   validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
   # 画像の添付を許可
   validates :image, presence: true
-
-
 end
