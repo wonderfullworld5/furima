@@ -4,97 +4,97 @@
 <div class="item-show">
   <div class="item-box">
     <h2 class="description">
-      <%= "商品名" %>
+      <%= @item.description %>
     </h2>
     <div class="item-img-content">
-      <%= image_tag "item-sample.png" ,class:"item-box-img" %>
-      <%# 商品が売れている場合は、sold outを表示しましょう %>
-      <%#<div class="sold-out">
-        <span>Sold Out!!</span>
-      </div>
-      <%# //商品が売れている場合は、sold outを表示しましょう %>
+      <%# 商品画像 %>
+      <%= image_tag @item.image, class: "item-box-img" %>
+      <%# 商品が売れている場合は、sold outを表示する %>
+      <% if @item.sold_out? %>
+        <div class="sold-out">
+          <span>Sold Out!!</span>
+        </div>
+      <% end %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
-        ¥ 999,999,999
+        ¥ <%= number_with_delimiter(@item.price) %>
       </span>
       <span class="item-postage">
-        <%= "配送料負担" %>
+        <%= Postage.find(@item.postage_id).name %>
       </span>
     </div>
 
-    <%# しているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
-
-    <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
-    <p class="or-text">or</p>
-    <%= link_to "削除", "#", data: {turbo_method: :delete}, class:"item-destroy" %>
-
-
-    <%# 商品が売れていない場合はこちらを表示しましょう %>
-    <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
-    <%# //商品が売れていない場合はこちらを表示しましょう %>
-
-
-    <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
+    <%# ユーザーのログイン状態と商品の売却状況に応じて表示を切り替える %>
+    <% if user_signed_in? %>
+      <% if current_user.id == @item.user_id && !@item.sold_out? %>
+        <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
+        <p class="or-text">or</p>
+        <%= link_to '削除', item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: "item-destroy" %>
+      <% elsif current_user.id != @item.user_id && !@item.sold_out? %>
+        <%= link_to '購入画面に進む', new_item_purchase_path(@item), class: "item-red-btn" %>
+      <% end %>
+    <% end %>
 
     <div class="item-explain-box">
-      <span><%= "商品説明" %></span>
+      <span><%= @item.detail %></span>
     </div>
     <table class="detail-table">
+      <%# 商品詳細情報を表示 %>
       <tbody>
         <tr>
-          <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= "出品者名" %></td>
-        </tr>
-        <tr>
           <th class="detail-item">カテゴリー</th>
-          <td class="detail-value"><%= "カテゴリー名" %></td>
+          <td class="detail-value"><%= Category.find(@item.category_id).name %></td>
         </tr>
         <tr>
           <th class="detail-item">商品の状態</th>
-          <td class="detail-value"><%= "商品の状態" %></td>
+          <td class="detail-value"><%= Condition.find(@item.condition_id).name %></td>
         </tr>
         <tr>
           <th class="detail-item">配送料の負担</th>
-          <td class="detail-value"><%= "発送料の負担" %></td>
+          <td class="detail-value"><%= Postage.find(@item.postage_id).name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送元の地域</th>
-          <td class="detail-value"><%= "発送元の地域" %></td>
+          <td class="detail-value"><%= Area.find(@item.area_id).name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送日の目安</th>
-          <td class="detail-value"><%= "発送日の目安" %></td>
+          <td class="detail-value"><%= Date.find(@item.date_id).name %></td>
         </tr>
       </tbody>
     </table>
+    <%# お気に入りボタンと不適切な商品を報告するボタン %>
     <div class="option">
       <div class="favorite-btn">
-        <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
+        <%= image_tag "star.png", class: "favorite-star-icon", width: "20", height: "20" %>
         <span>お気に入り 0</span>
       </div>
       <div class="report-btn">
-        <%= image_tag "flag.png" ,class:"report-flag-icon" ,width:"20",height:"20"%>
+        <%= image_tag "flag.png", class: "report-flag-icon", width: "20", height: "20" %>
         <span>不適切な商品の通報</span>
       </div>
     </div>
   </div>
-  <%# /商品の概要 %>
 
+  <%# コメント機能 %>
   <div class="comment-box">
     <form>
       <textarea class="comment-text"></textarea>
       <p class="comment-warn">
         相手のことを考え丁寧なコメントを心がけましょう。
-        <br>
-        不快な言葉遣いなどは利用制限や退会処分となることがあります。
-      </p>
-      <button type="submit" class="comment-btn">
-        <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-        <span>コメントする<span>
-      </button>
-    </form>
+<br>
+不快な言葉遣いなどは利用制限や退会処分となることがあります。
+</p>
+<button type="submit" class="comment-btn">
+<%= image_tag "comment.png", class: "comment-flag-icon", width: "20", height: "25" %>
+<span>コメントする</span>
+</button>
+</form>
+
   </div>
+<%# 商品のカテゴリー名を表示し、同じカテゴリーの他の商品へのリンクを提供 %>
+
   <div class="links">
     <a href="#" class="change-item-btn">
       ＜ 前の商品
@@ -103,9 +103,9 @@
       後ろの商品 ＞
     </a>
   </div>
-  <%# 詳細ページで表示されている商品のカテゴリー名を表示しましょう %>
-  <a href="#" class="another-item"><%= "商品のカテゴリー名" %>をもっと見る</a>
-  <%# //詳細ページで表示されている商品のカテゴリー名を表示しましょう %>
+  <a href="#" class="another-item"><%= Category.find(@item.category_id).name %>をもっと見る</a>
 </div>
-
 <%= render "shared/footer" %>
+
+
+

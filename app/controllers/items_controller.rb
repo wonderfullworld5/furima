@@ -10,6 +10,10 @@ class ItemsController < ApplicationController
     @items = Item.order(created_at: :desc)
   end
 
+  def show
+    @item = Item.find(params[:id])
+  end
+
   def edit
     # 編集ページの表示はビューで実装するため、特に何も記述しない
   end
@@ -28,7 +32,6 @@ end
   private
 
 # def set_item
-# @item = Item.find(params[:id])
 # end
 
 def item_params
