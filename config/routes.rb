@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
-  resources :articles
-  resources :items, only: [:index, :show]
-  devise_for :users
-  resources :items
   root 'items#index'
-  get '/items/new_user', to: 'items#new', as: 'new_user_item'
-end
+  devise_for :users
 
+  resources :articles
+
+  resources :items do
+    resources :purchases, only: [:new, :create]
+
+  #get '/items/new_user', to: 'items#new', as: 'new_user_item'
+end
+end
 
