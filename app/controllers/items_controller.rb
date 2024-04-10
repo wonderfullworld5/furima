@@ -6,6 +6,10 @@ class ItemsController < ApplicationController
     @item = Item.new
   end
 
+  def index
+    @items = Item.order(created_at: :desc)
+  end
+
   def edit
     # 編集ページの表示はビューで実装するため、特に何も記述しない
   end
