@@ -27,11 +27,16 @@
 
     <%# ユーザーのログイン状態と商品の売却状況に応じて表示を切り替える %>
     <% if user_signed_in? %>
-      <% if current_user.id == @item.user_id && !@item.sold_out? %>
-        <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
-        <p class="or-text">or</p>
-        <%= link_to '削除', item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: "item-destroy" %>
-      <% elsif current_user.id != @item.user_id && !@item.sold_out? %>
+      <%# 自身が出品した商品に対する条件分岐 %>
+      <% if current_user.id == @item.user_id %>
+        <%# 商品が売却済みでなければ編集・削除ボタンを表示 %>
+        <% unless @item.sold_out? %>
+          <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
+          <p class="or-text">or</p>
+          <%= link_to '削除', item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: "item-destroy" %>
+        <% end %>
+      <%# 自身が出品していない販売中の商品に対する条件分岐 %>
+      <% elsif !@item.sold_out? %>
         <%= link_to '購入画面に進む', new_item_purchase_path(@item), class: "item-red-btn" %>
       <% end %>
     <% end %>
@@ -72,26 +77,25 @@
       </div>
       <div class="report-btn">
         <%= image_tag "flag.png", class: "report-flag-icon", width: "20", height: "20" %>
-        <span>不適切な商品の通報</span>
-      </div>
-    </div>
-  </div>
+<span>不適切な商品の通報</span>
+</div>
+</div>
 
-  <%# コメント機能 %>
+  </div>
+<%# コメント機能 %>
+
   <div class="comment-box">
     <form>
       <textarea class="comment-text"></textarea>
       <p class="comment-warn">
-        相手のことを考え丁寧なコメントを心がけましょう。
-<br>
-不快な言葉遣いなどは利用制限や退会処分となることがあります。
-</p>
-<button type="submit" class="comment-btn">
-<%= image_tag "comment.png", class: "comment-flag-icon", width: "20", height: "25" %>
-<span>コメントする</span>
-</button>
-</form>
-
+        相手のことを考え丁寧なコメントを心がけましょう。<br>
+        不快な言葉遣いなどは利用制限や退会処分となることがあります。
+      </p>
+      <button type="submit" class="comment-btn">
+        <%= image_tag "comment.png", class: "comment-flag-icon", width: "20", height: "25" %>
+        <span>コメントする</span>
+      </button>
+    </form>
   </div>
 <%# 商品のカテゴリー名を表示し、同じカテゴリーの他の商品へのリンクを提供 %>
 
@@ -103,9 +107,8 @@
       後ろの商品 ＞
     </a>
   </div>
-  <a href="#" class="another-item"><%= Category.find(@item.category_id).name %>をもっと見る</a>
+  <a href="#" class="another-item">
+    <%= Category.find(@item.category_id).name %>をもっと見る
+  </a>
 </div>
 <%= render "shared/footer" %>
-
-
-
