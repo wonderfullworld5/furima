@@ -65,7 +65,9 @@
         </tr>
         <tr>
           <th class="detail-item">発送日の目安</th>
-          <td class="detail-value"><%= Date.find(@item.date_id).name %></td>
+          <td class="detail-value"><%= DeliveryDate.find(@item.delivery_date_id).name %></td>
+
+
         </tr>
       </tbody>
     </table>

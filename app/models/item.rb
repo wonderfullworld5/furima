@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-
+  has_one :record
   has_one_attached :image
   belongs_to :user
   # ActiveHashモデルとの関連付け
@@ -17,4 +17,9 @@ class Item < ApplicationRecord
   validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
   # 画像の添付を許可
   validates :image, presence: true
+  # 商品が売れているかどうかを判断するメソッド
+  def sold_out?
+    # Recordモデルとの関連付けを利用して、購入記録が存在するかどうかをチェック
+    record.present?
+  end
 end
