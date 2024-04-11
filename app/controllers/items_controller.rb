@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_item, only: [:edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :check_date_id_presence, only: [:create, :update]
 
   def new
     @item = Item.new
@@ -11,20 +12,18 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   def edit
-    @item = Item.find(params[:id])
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to item_path(@item), notice: '商品が更新されました。'
     else
       render :edit
     end
+  end
 
   def create
     @item = current_user.items.build(item_params)
@@ -35,21 +34,22 @@ class ItemsController < ApplicationController
       render 'new'
     end
   end
-end
 
   private
 
-# def set_item
-# end
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
-def item_params
-  params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id,
-                               :delivery_date_id, :price)
-end
+  def item_params
+    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id,
+                                 :delivery_date_id, :price)
+  end
 
-# date_idの存在を確認
-def check_date_id_presence
-  return if params.dig(:item, :delivery_date_id).present?
+  # 発送までの日数の存在を確認
+  def check_date_id_presence
+    return if params.dig(:item, :delivery_date_id).present?
 
-  flash.now[:alert] = '発送までの日数を選択してください。'
+    flash.now[:alert] = '発送までの日数を選択してください。'
+  end
 end
