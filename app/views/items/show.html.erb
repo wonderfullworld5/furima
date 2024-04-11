@@ -35,6 +35,7 @@
           <p class="or-text">or</p>
           <%# link_to '削除', item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: "item-destroy" %>
         <%# end %>
+        <% end %>
       <%# 自身が出品していない販売中の商品に対する条件分岐 %>
       <%# elsif !@item.sold_out? %>
         <%# link_to '購入画面に進む', new_item_purchase_path(@item), class: "item-red-btn" %>
