@@ -15,8 +15,16 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    # 編集ページの表示はビューで実装するため、特に何も記述しない
+    @item = Item.find(params[:id])
   end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      redirect_to item_path(@item), notice: '商品が更新されました。'
+    else
+      render :edit
+    end
 
   def create
     @item = current_user.items.build(item_params)
