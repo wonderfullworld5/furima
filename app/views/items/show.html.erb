@@ -45,6 +45,10 @@
     <table class="detail-table">
       <%# 商品詳細情報を表示 %>
       <tbody>
+                <tr>
+          <th class="detail-item">出品者</th>
+          <td class="detail-value"><%= @item.user.nickname %></td>
+        </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
           <td class="detail-value"><%= Category.find(@item.category_id).name %></td>
