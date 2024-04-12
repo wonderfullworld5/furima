@@ -12,15 +12,16 @@ class ItemsController < ApplicationController
   end
 
   def show
+    # 既に before_action :set_item で @item を設定しているため
   end
 
   def edit
-    @item = Item.find(params[:id])
+    # 既に before_action :set_item で @item を設定しているため
   end
 
   def update
     if @item.update(item_params)
-      redirect_to item_path(@item), notice: '商品が更新されました。'
+      redirect_to item_path(@item), notice: '商品が正常に更新されました。'
     else
       render :edit
     end
@@ -43,8 +44,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id,
-                                 :delivery_date_id, :price)
+    params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price)
   end
 
   # 発送までの日数の存在を確認
