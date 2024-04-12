@@ -2,6 +2,8 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :check_date_id_presence, only: [:create, :update]
+  before_action :check_user, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:edit, :update]
 
   def new
     @item = Item.new
@@ -20,6 +22,7 @@ class ItemsController < ApplicationController
   end
 
   def update
+    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to item_path(@item), notice: '商品が正常に更新されました。'
     else
@@ -45,6 +48,11 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price)
+  end
+
+  def check_user
+    @item = Item.find(params[:id])
+    redirect_to root_path unless current_user.id == @item.user_id
   end
 
   # 発送までの日数の存在を確認
