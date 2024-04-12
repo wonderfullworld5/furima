@@ -4,10 +4,12 @@
   </header>
 
   <div class="items-sell-main">
+
+    <%= render 'form', item: @item %> <!-- フォーム部分テンプレートを呼び出し -->
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with(model: @item, local: true, multipart: true) do |form| %>
       <%= render 'shared/error_messages', model: form.object %>
-      
+
       <!-- 商品画像 -->
       <div class="img-upload">
         <div class="weight-bold-text">
