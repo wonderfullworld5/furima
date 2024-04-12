@@ -13,11 +13,11 @@ class ItemsController < ApplicationController
   end
 
   def show
+    # 単一のアイテムを表示
   end
 
   def edit
-    # 商品編集ページ表示
-    # set_item & check_user are called via before_action
+    # アイテムの編集、事前チェックはbeforeアクションで実行
   end
 
   def update
@@ -37,6 +37,12 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item = Item.find(params[:id])
+    @item.destroy
+    redirect_to root_path
+  end
+
   private
 
   def set_item
@@ -54,8 +60,6 @@ class ItemsController < ApplicationController
   # 発送までの日数の存在を確認
   def check_date_id_presence
     return if params.dig(:item, :delivery_date_id).present?
-
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
 end
-
