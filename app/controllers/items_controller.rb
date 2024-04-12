@@ -16,7 +16,8 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    # check_user before_actionでユーザー権限チェック
+    # 商品編集ページ表示
+    # set_item & check_user are called via before_action
   end
 
   def update
@@ -30,7 +31,6 @@ class ItemsController < ApplicationController
   def create
     @item = current_user.items.build(item_params)
     if @item.save
-      flash[:success] = 'Item created!'
       redirect_to @item
     else
       render 'new'
