@@ -3,7 +3,6 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :check_date_id_presence, only: [:create, :update]
   before_action :check_user, only: [:edit, :update]
-  before_action :authenticate_user!, only: [:edit, :update]
 
   def new
     @item = Item.new
@@ -14,15 +13,13 @@ class ItemsController < ApplicationController
   end
 
   def show
-    # 既に before_action :set_item で @item を設定しているため
   end
 
   def edit
-    # 既に before_action :set_item で @item を設定しているため
+    # check_user before_actionでユーザー権限チェック
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to item_path(@item), notice: '商品が正常に更新されました。'
     else
@@ -51,7 +48,6 @@ class ItemsController < ApplicationController
   end
 
   def check_user
-    @item = Item.find(params[:id])
     redirect_to root_path unless current_user.id == @item.user_id
   end
 
@@ -62,3 +58,4 @@ class ItemsController < ApplicationController
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
 end
+
