@@ -3,9 +3,7 @@
 <%# 商品の概要 %>
 <div class="item-show">
   <div class="item-box">
-    <h2 class="description">
-      <%= @item.description %>
-    </h2>
+    <h2 class="description"><%= @item.description %></h2>
     <div class="item-img-content">
       <%# 商品画像 %>
       <%= image_tag @item.image, class: "item-box-img" %>
@@ -25,8 +23,8 @@
       </span>
     </div>
     <%# ユーザーのログイン状態と商品の売却状況に応じて表示を切り替える %>
-    <% if user_signed_in? %>
-      <%# 自身が出品した商品に対する条件分岐 %>
+     <% if user_signed_in? && current_user.id == @item.user_id %>
+      <%#自身が出品した商品に対する条件分岐 %>
       <%# if current_user.id == @item.user_id %>
         <%# 商品が売却済みでなければ編集・削除ボタンを表示 %>
 
