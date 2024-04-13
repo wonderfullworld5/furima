@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
     item.destroy
     redirect_to root_path
   end
-    end
 
   def edit
     # アイテムの編集、事前チェックはbeforeアクションで実行
@@ -29,7 +28,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to item_path(@item), notice: '商品が正常に更新されました。'
+      redirect_to item_path(@item)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -63,3 +62,4 @@ class ItemsController < ApplicationController
     return if params.dig(:item, :delivery_date_id).present?
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
+end
