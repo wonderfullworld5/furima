@@ -16,6 +16,13 @@ class ItemsController < ApplicationController
     # 単一のアイテムを表示
   end
 
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
+    redirect_to root_path
+  end
+    end
+
   def edit
     # アイテムの編集、事前チェックはbeforeアクションで実行
   end
@@ -37,12 +44,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  def destroy
-    @item = Item.find(params[:id])
-    @item.destroy
-    redirect_to root_path
-  end
-
   private
 
   def set_item
@@ -62,4 +63,3 @@ class ItemsController < ApplicationController
     return if params.dig(:item, :delivery_date_id).present?
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
-end
