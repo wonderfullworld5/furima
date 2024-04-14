@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :articles
 
   resources :items do
+
+  resources :records, only: [:new, :create]
+
     #resources :purchases, only: [:new, :create, :edit,:update,:destroy]
   end
   #get '/items/new_user', to: 'items#new', as: 'new_user_item'

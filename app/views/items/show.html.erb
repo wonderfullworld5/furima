@@ -43,7 +43,9 @@
       <%#自身が出品した商品に対する条件分岐 %>
       <%# if current_user.id == @item.user_id %>
         <%# 商品が売却済みでなければ編集・削除ボタンを表示 %>
-
+<%# 商品が売れていない場合はこちらを表示しましょう %>
+<%= link_to "購入画面に進む", "#", data: { turbo: false }, class:"item-red-btn"%>
+<%# //商品が売れていない場合はこちらを表示しましょう %>
         <%# unless @item.sold_out? %>
           <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
           <p class="or-text">or</p>

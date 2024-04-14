@@ -1,0 +1,23 @@
+<%= form_with model: @record, url: item_records_path(@item), local: true do |form| %>
+  <%= form.label :postcode, "郵便番号" %>
+  <%= form.text_field :postcode %>
+
+  <%= form.label :area_id, "都道府県" %>
+  <%= form.collection_select :area_id, Area.all, :id, :name, prompt: "選択してください" %>
+
+  <%= form.label :city, "市区町村" %>
+  <%= form.text_field :city %>
+
+  <%= form.label :street, "番地" %>
+  <%= form.text_field :street %>
+
+  <%= form.label :building, "建物名" %>
+  <%= form.text_field :building %>
+
+  <%= form.label :phone, "電話番号" %>
+  <%= form.text_field :phone %>
+
+  <%= form.submit "購入する" %>
+<% end %>
+
+
