@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_10_211349) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_14_210936) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_10_211349) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
+  create_table "ships", charset: "utf8", force: :cascade do |t|
+    t.bigint "record_id", null: false
+    t.string "postcode"
+    t.integer "area_id"
+    t.string "city"
+    t.string "street"
+    t.string "building"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_id"], name: "index_ships_on_record_id"
+  end
+
   create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -101,4 +114,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_10_211349) do
   add_foreign_key "items", "users"
   add_foreign_key "records", "items"
   add_foreign_key "records", "users"
+  add_foreign_key "ships", "records"
 end
