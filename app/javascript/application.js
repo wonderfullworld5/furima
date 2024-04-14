@@ -10,3 +10,17 @@ document.addEventListener('wheel', function(event) {
 window.addEventListener('wheel', event => {
   // ここでスクロールに関連する処理を行う
 }, { passive: true });
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // 非同期処理を行う関数
+  someAsynchronousOperation(request, (error, result) => {
+      if (error) {
+          console.error('Error during async operation', error);
+          sendResponse({ success: false, error: error.toString() });
+      } else {
+          sendResponse({ success: true, data: result });
+      }
+  });
+
+  // 非同期レスポンスを返すためにtrueを返す
+  return true;
+});
