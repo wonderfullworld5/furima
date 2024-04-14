@@ -4,3 +4,9 @@ import "controllers"
 import "item_price"
 import "@rails/ujs"
 Rails.start()
+document.addEventListener('wheel', function(event) {
+  // ここでスクロールに関連する処理を行う
+}, { passive: true })
+window.addEventListener('wheel', event => {
+  // ここでスクロールに関連する処理を行う
+}, { passive: true });

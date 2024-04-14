@@ -1,4 +1,20 @@
 <%= render "shared/header" %>
+<head>
+  <title>Furima</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-param" content="authenticity_token" />
+  <meta name="csrf-token" content="kLHA2JIPFBCH5hDdW1VyVSVZ9hpoLOmfoMYlaZA0iAEsX0UB3cj5zbccRNT0Xi755p61ivo2Qd6hbghwzbvExQ" />
+  <meta name="turbo-visit-control" content="reload"> <!-- Turbo Driveをリロードモードに設定 -->
+  
+  <!-- その他のリソース -->
+  <link rel="stylesheet" href="/assets/application-273e5664a60f872ef8dd98ae3be77f6a7c159e738d21fa2d2490922a8bb97f92.css" data-turbo-track="reload" />
+  <script type="importmap" data-turbo-track="reload">{
+    "imports": {
+      "application": "/assets/application-988ca42a1f3dbf11519744d4c81c057473ecb0c756d9b37fa1d41d50b92815ce.js",
+      "@hotwired/turbo-rails": "/assets/turbo.min-c6325b8b56619b34aa6e0f34dfed82b010fe049f81b320a4cd0e2d99d3245118.js",
+    }
+  }</script>
+</head>
 
 <%# 商品の概要 %>
 <div class="item-show">
@@ -32,6 +48,7 @@
           <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
           <p class="or-text">or</p>
           <%#= link_to '削除', "/tweets/#{tweet.id}", data: { turbo_method: :delete } これを参考に%>
+
           <%= link_to '削除', item_path(@item), data: { turbo_method: :delete }, class: "item-red-btn" %>
           </li>
         <% end %>
