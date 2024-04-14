@@ -1,4 +1,6 @@
-<%= form_with model: @record, url: item_records_path(@item), local: true do |form| %>
+<%= form_with model: @purchase_form, url: item_records_path(@item), local: true do |form| %>
+  <%= render 'shared/error_messages', model: @purchase_form %>
+
   <%= form.label :postcode, "郵便番号" %>
   <%= form.text_field :postcode %>
 
@@ -11,7 +13,7 @@
   <%= form.label :street, "番地" %>
   <%= form.text_field :street %>
 
-  <%= form.label :building, "建物名" %>
+  <%= form.label :building, "建物名（任意）" %>
   <%= form.text_field :building %>
 
   <%= form.label :phone, "電話番号" %>
@@ -19,5 +21,3 @@
 
   <%= form.submit "購入する" %>
 <% end %>
-
-
