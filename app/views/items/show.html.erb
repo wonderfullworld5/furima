@@ -23,9 +23,9 @@
     <div class="item-img-content">
       <%# 商品画像 %>
       <%= image_tag @item.image, class: "item-box-img" %>
-      <%# 商品が売れている場合は、sold outを表示する %>
-      <%# if @item.sold_out? %>
-        <%#<div class="sold-out">
+<%# 商品が売れている場合は、sold outを表示する %>
+      <% if @item.sold_out? %>
+        <div class="sold-out">
           <span>Sold Out!!</span>
         </div>
       <% end %>
@@ -39,27 +39,16 @@
       </span>
     </div>
     <%# ユーザーのログイン状態と商品の売却状況に応じて表示を切り替える %>
-<% if user_signed_in? && !@item.sold_out? %>
-  <% if current_user.id != @item.user_id %>
+<% if user_signed_in? %>
+      <% if !@item.sold_out? && current_user.id != @item.user_id %>
     <%= link_to "購入画面に進む", new_item_record_path(@item), data: { turbo: false }, class: "item-red-btn" %>
-  <% end %>
-<% elsif @item.sold_out? %>
-  <div class="sold-out">
-    <span>Sold Out!!</span>
-  </div>
-<% end %>
-
+  <% elsif current_user.id == @item.user_id %>
           <%= link_to '商品の編集', edit_item_path(@item), class: "item-red-btn" %>
           <p class="or-text">or</p>
-
           <%= link_to '削除', item_path(@item), data: { turbo_method: :delete }, class: "item-red-btn" %>
           </li>
         <% end %>
-        <%# end %>
-      <%# 自身が出品していない販売中の商品に対する条件分岐 %>
-      <%# elsif !@item.sold_out? %>
-        <%# link_to '購入画面に進む', new_item_purchase_path(@item), class: "item-red-btn" %>
-      <%# end %>
+        <% end %>
 
     <div class="item-explain-box">
       <span><%= @item.detail %></span>
