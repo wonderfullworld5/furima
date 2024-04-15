@@ -1,22 +1,23 @@
 class RecordsController < ApplicationController
-  def index
+  def new
     @item = Item.find(params[:item_id])  # 購入する商品情報を取得
-    @record_form = PurchaseForm.new  # Formオブジェクトのインスタンスを作成
+    @purchase_form = PurchaseForm.new(item_id: @item.id)
   end
 
   def create
     @item = Item.find(params[:item_id])
-    @record_form = PurchaseForm.new(record_params)
-    if @record_form.save
-      redirect_to root_path  # 購入後はトップページへリダイレクト
+    @purchase_form = PurchaseForm.new(purchase_form_params)
+    if @purchase_form.valid?
+      @purchase_form.save
+      redirect_to root_path
     else
-      render :index  # エラーがあれば購入ページを再表示
+      render :new
     end
   end
 
   private
 
   def record_params
-    params.require(:purchase_form).permit(:postcode, :area_id, :city, :street, :building, :phone).merge(user_id: current_user.id, item_id: @item.id)
+    params.require(:purchase_form).permit(:postcode, :area_id, :city, :street, :building, :phone, :item_id)
   end
 end
