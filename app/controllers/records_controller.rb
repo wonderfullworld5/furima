@@ -1,13 +1,15 @@
 class RecordsController < ApplicationController
-  before_action :set_item, only: [:index]
+  before_action :set_item, only: [:index, :new_order]
 
   def index
-    @order = Order.new
     @purchase_form = PurchaseForm.new
+    render 'records/index'
+  end
+
+  def new_order
   end
 
   def create
-    binding.pry
     @purchase_form = PurchaseForm.new(purchase_form_params)
     if @purchase_form.save
       redirect_to root_path
@@ -20,10 +22,6 @@ class RecordsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
-  end
-
-  def order_params
-    params.require(:order).permit(:item_id, :user_id)
   end
 
   def purchase_form_params
