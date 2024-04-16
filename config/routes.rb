@@ -5,12 +5,7 @@ Rails.application.routes.draw do
   resources :articles
 
   resources :items do
-
-  resources :records, only: [:new, :create]
-
-  resources :orders, only: [:new, :create]  # newは購入フォーム、createは購入処理
-    #resources :purchases, only: [:new, :create, :edit,:update,:destroy]
+    resources :records, only: [:index, :create]  # index は自動的に :item_id を含む
+    resources :orders, only: [:index, :create]
   end
-  #get '/items/new_user', to: 'items#new', as: 'new_user_item'
 end
-
