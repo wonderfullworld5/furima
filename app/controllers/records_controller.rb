@@ -12,7 +12,7 @@ class RecordsController < ApplicationController
   def create_order
     @purchase_form = PurchaseForm.new(purchase_form_params)
     if @purchase_form.save
-      redirect_to success_path
+      redirect_to success_item_record_path(@item)
     else
       render :new_order
     end
