@@ -6,7 +6,7 @@ class RecordsController < ApplicationController
 
   def new_order
     @purchase_form = PurchaseForm.new(item_id: @item.id)
-    render 'index' # app/views/records/index.html.erb
+    render 'records/index' # app/views/records/index.html.erb
   end
 
   def create_order

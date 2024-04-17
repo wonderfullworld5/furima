@@ -29,6 +29,9 @@
         ¥<%= "販売価格" %>
       </p>
     </div>
+
+    <%= render 'shared/error_messages', model: @purchase_form %>
+
     <%# /支払額の表示 %>
    <%# <%= form_with model: @purchase_form, url: item_records_path(@item), local: true do |f| %>
     <%= form_with model: @purchase_form, url: create_order_item_record_path(@item), local: true do |f| %>
