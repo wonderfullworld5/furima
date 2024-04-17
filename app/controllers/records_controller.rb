@@ -1,20 +1,20 @@
 class RecordsController < ApplicationController
-  before_action :set_item, only: [:index, :new_order]
+  before_action :set_item
 
   def index
-    @purchase_form = PurchaseForm.new
-    render 'records/index'
   end
 
   def new_order
+    @purchase_form = PurchaseForm.new(item_id: @item.id)
+    render 'index' # app/views/records/index.html.erb
   end
 
-  def create
+  def create_order
     @purchase_form = PurchaseForm.new(purchase_form_params)
     if @purchase_form.save
-      redirect_to root_path
+      redirect_to success_path
     else
-      render :index
+      render :new_order
     end
   end
 
