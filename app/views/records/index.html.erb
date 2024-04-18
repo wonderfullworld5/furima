@@ -1,10 +1,17 @@
 <%= render "shared/second-header"%>
-
+ 
 <div class='transaction-contents'>
   <div class='transaction-main'>
     <h1 class='transaction-title-text'>
       購入内容の確認
     </h1>
+<%# エラーメッセージの表示 %>
+    <%= render 'shared/error_messages', model: @purchase_form %>
+<%= form_with model: @purchase_form, url: item_records_path, local: true do |f| %>
+      <%# フォーム内容を入力 %>
+
+
+
     <%# 購入内容の表示 %>
     <div class='buy-item-info'>
       <%= image_tag "item-sample.png", class: 'buy-item-img' %>
@@ -30,11 +37,10 @@
       </p>
     </div>
 
-    <%= render 'shared/error_messages', model: @purchase_form %>
 
     <%# /支払額の表示 %>
    <%# <%= form_with model: @purchase_form, url: item_records_path(@item), local: true do |f| %>
-    <%= form_with model: @purchase_form, url: create_order_item_record_path(@item), local: true do |f| %>
+    <%# <%= form_with model: @purchase_form, url: create_order_item_record_path(@item), local: true do |f| %> 
 
     <%# カード情報の入力 %>
     <div class='credit-card-form'>

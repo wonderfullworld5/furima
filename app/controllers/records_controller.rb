@@ -1,22 +1,20 @@
 class RecordsController < ApplicationController
-  before_action :set_item
+  before_action :set_item, only: [:new_order, :create_order]
 
   def index
-  end
-
-  def new_order
     @purchase_form = PurchaseForm.new
-    render 'index'  # index.html.erb
   end
 
-  def create_order
-    @purchase_form = PurchaseForm.new(purchase_form_params)
-    if @purchase_form.save
-      redirect_to success_item_records_item_records_path(@item), notice: '購入が完了しました。'
+  def create
+    @purchase_form = PurchaseForm.new(purchase_params)
+    if @purchase_form.valid?
+      # 購入処理
+      redirect_to root_path
     else
-      render :index
+      render :index, status: :unprocessable_entity
     end
   end
+
 
   private
 
