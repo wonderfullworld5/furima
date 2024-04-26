@@ -20,17 +20,16 @@
 <div class="item-show">
   <div class="item-box">
     <h2 class="description"><%= @item.description %></h2>
-    <div class="item-img-content">
-      <%# 商品画像 %>
-      <%= image_tag @item.image, class: "item-box-img" %>
-<%# 商品が売れている場合は、sold outを表示する %>
-      <% if @item.record.present? %>
-  <div class='sold-out'>
-    <span>Sold Out!!</span>
-  </div>
-<% end %>
-
+<div class="item-img-content">
+  <%= image_tag @item.image, class: "item-box-img" %>
+  <%# 商品が売れている場合は、sold outを表示する %>
+  <% if @item.record.present? %>
+    <div class='sold-out'>
+      <span>Sold Out!!</span>
     </div>
+  <% end %>
+</div>
+
     <div class="item-price-box">
       <span class="item-price">
         ¥ <%= number_with_delimiter(@item.price) %>
