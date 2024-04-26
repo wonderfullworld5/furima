@@ -3,7 +3,6 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :check_date_id_presence, only: [:create, :update]
   before_action :check_user, only: [:edit, :update]
-  before_action :check_item_status, only: [:show]
 
   def new
     @item = Item.new
@@ -14,7 +13,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    # @item は before_action :set_item で設定されているのでここで追加の処理
+    # 単一のアイテムを表示
   end
 
   def destroy
@@ -46,17 +45,6 @@ class ItemsController < ApplicationController
 
   private
 
-  def check_item_status
-    if @item.sold? && !current_user&.owns?(@item)
-      redirect_to root_path
-    end
-  end
-
-  def check_item_ownership
-    redirect_to root_path if current_user.id == @item.user_id
-  end
-end
-
   def set_item
     @item = Item.find(params[:id])
   end
@@ -74,5 +62,4 @@ end
     return if params.dig(:item, :delivery_date_id).present?
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
-end
 end
