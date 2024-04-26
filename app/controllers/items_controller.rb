@@ -4,8 +4,6 @@ class ItemsController < ApplicationController
   before_action :check_date_id_presence, only: [:create, :update]
   before_action :check_user, only: [:edit, :update]
   before_action :check_item_status, only: [:show]
-  before_action :check_item_ownership, only: [:show]
-  before_action :check_logged_in, only: [:show]
 
   def new
     @item = Item.new
@@ -54,6 +52,11 @@ class ItemsController < ApplicationController
     end
   end
 
+  def check_item_ownership
+    redirect_to root_path if current_user.id == @item.user_id
+  end
+end
+
   def set_item
     @item = Item.find(params[:id])
   end
@@ -71,13 +74,5 @@ class ItemsController < ApplicationController
     return if params.dig(:item, :delivery_date_id).present?
     flash.now[:alert] = '発送までの日数を選択してください。'
   end
-
-  def check_item_ownership
-    redirect_to root_path if current_user.id == @item.user_id
-  end
-
-# ログインチェック
-def check_logged_in
-  redirect_to new_user_session_path unless user_signed_in?
 end
 end
