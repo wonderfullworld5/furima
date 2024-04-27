@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :check_date_id_presence, only: [:create, :update]
-  before_action :check_user, only: [:edit, :update]
-  before_action :redirect_if_sold, only: [:edit, :update, :show]
+  before_action :check_user_and_sold_status, only: [:edit, :update, :show]
+
   def new
     @item = Item.new
   end
@@ -50,18 +50,15 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:image, :description, :detail, :category_id, :condition_id, :postage_id, :area_id, :delivery_date_id, :price)
   end
 
-  def check_user
-    redirect_to root_path unless current_user.id == @item.user_id
+  def check_user_and_sold_status
+    if @item.sold_out? && current_user.id == @item.user_id
+      redirect_to root_path
+return
+    end
   end
+  
 
   def check_date_id_presence
     return if params.dig(:item, :delivery_date_id).present?
   end
-
-  def redirect_if_sold
-    if @item.sold_out?
-      redirect_to root_path
-      return
-  end
-end
 end
