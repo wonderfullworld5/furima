@@ -3,11 +3,14 @@ class PurchaseForm
   attr_accessor :user_id, :item_id, :postcode, :area_id, :city, :street, :building, :phone
 
   # バリデーションを追加
-  validates :postcode, presence: true, format: { with: /\A\d{3}-\d{4}\z/, message: "はハイフンを含む7桁で入力してください" }
-  validates :area_id, presence: true, numericality: { only_integer: true, greater_than: 0, message: "を選択してください" }
-  validates :city, presence: true
-  validates :street, presence: true
-  validates :phone, presence: true, format: { with: /\A\d{10,11}\z/, message: "は10桁または11桁の数字で入力してください" }
+  with_options presence: true do
+    validates :postcode, format: { with: /\A\d{3}-\d{4}\z/, message: "はハイフンを含む7桁で入力してください" }
+    validates :area_id, numericality: { only_integer: true, greater_than: 0, message: "を選択してください" }
+    validates :city
+    validates :street
+    validates :phone, format: { with: /\A\d{10,11}\z/, message: "は10桁または11桁の数字で入力してください" }
+  end
+
 
   # 保存処理
   def save

@@ -1,7 +1,7 @@
 class RecordsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
-  before_action :redirect_if_seller, only: [:index, :create]
+  before_action :redirect_if_seller_or_sold, only: [:index, :create]
 
   def index
     @purchase_form = PurchaseForm.new
@@ -22,8 +22,10 @@ class RecordsController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def redirect_if_seller
-    redirect_to root_path if current_user.id == @item.user_id
+  def redirect_if_seller_or_sold
+    if current_user.id == @item.user_id || @item.sold_out?
+      redirect_to root_path
+    end
   end
 
   def purchase_form_params
